@@ -442,51 +442,51 @@ def main():
     errors = 0
     for type_from in PoseConv.POSE_TYPES:
         for type_to in PoseConv.POSE_TYPES:
-            print 
-            print "Types: FROM %s, TO %s" % (type_from, type_to)
+            print() 
+            print("Types: FROM %s, TO %s" % (type_from, type_to))
             exec("from_pose = PoseConv.to_%s(pose)" % type_from)
             if from_pose is None or (type(from_pose) is tuple and from_pose[0] is None):
-                print "from_pose ERROR\n" * 5
+                print("from_pose ERROR\n" * 5)
                 errors += 1
                 continue
             exec("to_pose = PoseConv.to_%s('base_link', from_pose)" % type_to)
             if to_pose is None or (type(to_pose) is tuple and to_pose[0] is None):
-                print "to_pose ERROR\n" * 5
+                print("to_pose ERROR\n" * 5)
                 errors += 1
                 continue
             exec("back_pose = PoseConv.to_%s(to_pose)" % type_from)
             if back_pose is None or (type(back_pose) is tuple and back_pose[0] is None):
-                print "back_pose ERROR\n" * 5
+                print("back_pose ERROR\n" * 5)
                 errors += 1
                 continue
             exec("orig_pose = PoseConv.to_pos_quat(back_pose)")
             if orig_pose is None or (type(orig_pose) is tuple and orig_pose[0] is None):
-                print "orig_pose ERROR\n" * 5
-                print pose
-                print orig_pose
+                print("orig_pose ERROR\n" * 5)
+                print(pose)
+                print(orig_pose)
                 errors += 1
                 continue
             if not np.allclose(orig_pose[0], pose[0]):
-                print "orig_pose pos ERROR\n" * 5
-                print pose
-                print orig_pose
+                print("orig_pose pos ERROR\n" * 5)
+                print(pose)
+                print(orig_pose)
                 errors += 1
                 continue
             if 'point' not in type_to + type_from and not np.allclose(orig_pose[1], pose[1]):
-                print "orig_pose rot ERROR\n" * 5
-                print pose
-                print orig_pose
+                print("orig_pose rot ERROR\n" * 5)
+                print(pose)
+                print(orig_pose)
                 errors += 1
                 continue
-            print "-" * 50
+            print("-" * 50)
             if type_from != PoseConv.get_type(from_pose) or type_to != PoseConv.get_type(to_pose):
-                print "get_type ERROR\n" * 5
+                print("get_type ERROR\n" * 5)
                 errors += 1
                 continue
-            print from_pose
-            print "-" * 20
-            print to_pose
-    print "\n\nErrors: %d" % errors
+            print(from_pose)
+            print("-" * 20)
+            print(to_pose)
+    print("\n\nErrors: %d" % errors)
 
 if __name__ == "__main__":
     main()

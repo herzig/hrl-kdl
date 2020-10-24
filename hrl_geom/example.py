@@ -16,4 +16,4 @@ if __name__ == "__main__":
     p, R = PoseConv.to_pos_rot("/new_link", tf_stamped)
     for name in ["homo_mat", "pose_msg", "pos", "quat", "pose_stamped_msg", 
                  "pose_stamped_msg2", "tf_stamped", "p", "R"]:
-        print "%s: \n" % name, locals()[name]
+        print("%s: \n" % name, locals()[name])

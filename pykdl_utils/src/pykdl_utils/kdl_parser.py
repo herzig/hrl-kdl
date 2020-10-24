@@ -56,7 +56,7 @@ def urdf_pose_to_kdl_frame(pose):
 def urdf_joint_to_kdl_joint(jnt):
     origin_frame = urdf_pose_to_kdl_frame(jnt.origin)
     if jnt.joint_type == 'fixed':
-        return kdl.Joint(jnt.name, kdl.Joint.None)
+        return kdl.Joint(jnt.name, kdl.Joint.Fixed)
     axis = kdl.Vector(*jnt.axis)
     if jnt.joint_type == 'revolute':
         return kdl.Joint(jnt.name, origin_frame.p,
@@ -67,8 +67,8 @@ def urdf_joint_to_kdl_joint(jnt):
     if jnt.joint_type == 'prismatic':
         return kdl.Joint(jnt.name, origin_frame.p,
                          origin_frame.M * axis, kdl.Joint.TransAxis)
-    print "Unknown joint type: %s." % jnt.joint_type
-    return kdl.Joint(jnt.name, kdl.Joint.None)
+    print("Unknown joint type: %s." % jnt.joint_type)
+    return kdl.Joint(jnt.name, kdl.Joint.Fixed)
 
 def urdf_inertial_to_kdl_rbi(i):
     origin = urdf_pose_to_kdl_frame(i.origin)
@@ -128,17 +128,17 @@ def main():
     for j in robot.joint_map:
         if robot.joint_map[j].joint_type != 'fixed':
             num_non_fixed_joints += 1
-    print "URDF non-fixed joints: %d;" % num_non_fixed_joints,
-    print "KDL joints: %d" % tree.getNrOfJoints()
-    print "URDF joints: %d; KDL segments: %d" %(len(robot.joint_map),
-                                                tree.getNrOfSegments())
+    print("URDF non-fixed joints: %d;" % num_non_fixed_joints,)
+    print("KDL joints: %d" % tree.getNrOfJoints())
+    print("URDF joints: %d; KDL segments: %d" %(len(robot.joint_map),
+                                                tree.getNrOfSegments()))
     import random
     base_link = robot.get_root()
     end_link = robot.link_map.keys()[random.randint(0, len(robot.link_map)-1)]
     chain = tree.getChain(base_link, end_link)
-    print "Root link: %s; Random end link: %s" % (base_link, end_link)
+    print("Root link: %s; Random end link: %s" % (base_link, end_link))
     for i in range(chain.getNrOfSegments()):
-        print chain.getSegment(i).getName()
+        print(chain.getSegment(i).getName())
 
 if __name__ == "__main__":
     main()

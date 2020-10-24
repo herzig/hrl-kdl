@@ -297,16 +297,16 @@ def main():
         import random
         base_link = robot.get_root()
         end_link = robot.link_map.keys()[random.randint(0, len(robot.link_map)-1)]
-        print "Root link: %s; Random end link: %s" % (base_link, end_link)
+        print("Root link: %s; Random end link: %s" % (base_link, end_link))
         js_kin = JointKinematics(robot, base_link, end_link)
-        print "Joint angles:", js_kin.get_joint_angles()
-        print "Joint angles (wrapped):", js_kin.get_joint_angles(True)
-        print "Joint velocities:", js_kin.get_joint_velocities()
-        print "Joint efforts:", js_kin.get_joint_efforts()
-        print "Jacobian:", js_kin.jacobian()
+        print("Joint angles:", js_kin.get_joint_angles())
+        print("Joint angles (wrapped):", js_kin.get_joint_angles(True))
+        print("Joint velocities:", js_kin.get_joint_velocities())
+        print("Joint efforts:", js_kin.get_joint_efforts())
+        print("Jacobian:", js_kin.jacobian())
         kdl_pose = js_kin.forward()
-        print "FK:", kdl_pose
-        print "End effector force:", js_kin.end_effector_force()
+        print("FK:", kdl_pose)
+        print("End effector force:", js_kin.end_effector_force())
 
         if True:
             import tf
@@ -315,7 +315,7 @@ def main():
             rospy.sleep(1)
             t = tf_list.getLatestCommonTime(base_link, end_link)
             tf_pose = PoseConv.to_homo_mat(tf_list.lookupTransform(base_link, end_link, t))
-            print "Error with TF:", np.linalg.norm(kdl_pose - tf_pose)
+            print("Error with TF:", np.linalg.norm(kdl_pose - tf_pose))
 
 if __name__ == "__main__":
     main()
